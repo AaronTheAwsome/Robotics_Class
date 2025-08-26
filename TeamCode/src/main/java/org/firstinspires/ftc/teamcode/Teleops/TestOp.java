@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode.Teleops;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-//@Config       //if you want config
-//@TeleOp       //if this is a teleop
-@Autonomous   //if this is an auto
+@Config       //if you want config
+@TeleOp       //if this is a teleop
+//@Autonomous   //if this is an auto
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -21,6 +23,7 @@ public class TestOp extends OpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     DcMotor myMotor;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -31,7 +34,8 @@ public class TestOp extends OpMode {
         // step
         g1 = new GamepadEx(gamepad1);
 
-        myMotor = hardwareMap.get(DcMotor.class,"myMotor")
+        myMotor = hardwareMap.get(DcMotor.class,"myMotor");
+
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -50,6 +54,8 @@ public class TestOp extends OpMode {
     @Override
     public void start() {
         runtime.reset();
+        myMotor.setPower(.5);
+
     }
 
     /*
@@ -67,5 +73,6 @@ public class TestOp extends OpMode {
      */
     @Override
     public void stop() {
+        myMotor.setPower(0);
     }
 }
