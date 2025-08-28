@@ -3,19 +3,19 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config       //if you want config
-//@TeleOp(name="Dashboard Speed Control", group="Testing")
+@TeleOp(name="Dashboard Speed Control", group="Testing")
 
 //@TeleOp       //if this is a teleop
-@Autonomous   //if this is an auto
+//@Autonomous   //if this is an auto
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
