@@ -80,6 +80,6 @@ class TestOp extends OpMode {
      */
     @Override
     public void stop() {
-
+        myMotor.setPower(0);
     }
 }
