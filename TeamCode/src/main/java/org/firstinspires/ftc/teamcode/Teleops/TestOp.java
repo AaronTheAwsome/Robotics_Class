@@ -65,6 +65,11 @@ public class TestOp extends OpMode {
     @Override
     public void loop() {
         g1.readButtons();
+
+        // ✅ Use DRIVE_POWER to control the motor
+        myMotor.setPower(DRIVE_POWER);
+
+        // Send info to Dashboard telemetry
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
         dashboardTelemetry.update();
