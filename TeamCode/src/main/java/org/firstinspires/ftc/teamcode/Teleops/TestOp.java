@@ -19,6 +19,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
+
     GamepadEx g1;
 
     //this section allows us to access telemetry data from a browser
@@ -64,6 +66,7 @@ public class TestOp extends OpMode {
     public void loop() {
         g1.readButtons();
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
+        dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
         dashboardTelemetry.update();
     }
 
