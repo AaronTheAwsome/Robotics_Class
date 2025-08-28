@@ -21,6 +21,8 @@ public class DriveTrain {
     private double targetHeading;
     private double currentHeading = 0;
 
+    DcMotor myMotor;
+
     // @Config variables
     // Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
@@ -46,7 +48,7 @@ public class DriveTrain {
         // when given a positive input the robot should move forward
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);
-
+        myMotor.setPower(0.5);
         // TODO - EDIT these two lines to match YOUR mounting configuration.
         /* The next two lines define Hub orientation.
          * The Default Orientation (shown) is when a hub is mounted horizontally with the printed

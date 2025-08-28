@@ -12,8 +12,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config       //if you want config
-@TeleOp       //if this is a teleop
-//@Autonomous   //if this is an auto
+@TeleOp(name="Dashboard Speed Control", group="Testing")
+
+//@TeleOp       //if this is a teleop
+@Autonomous   //if this is an auto
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -23,7 +25,6 @@ public class TestOp extends OpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     DcMotor myMotor;
-
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -35,7 +36,6 @@ public class TestOp extends OpMode {
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
-
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -54,10 +54,9 @@ public class TestOp extends OpMode {
     @Override
     public void start() {
         runtime.reset();
-        myMotor.setPower(.5);
+        myMotor.setPower(0.5);
 
     }
-
     /*
      * Code to run REPEATEDLY after the driver hits START but before they hit STOP
      */
@@ -73,6 +72,6 @@ public class TestOp extends OpMode {
      */
     @Override
     public void stop() {
-        myMotor.setPower(0);
+
     }
 }
