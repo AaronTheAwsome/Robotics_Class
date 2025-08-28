@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name="Dashboard Speed Control", group="Testing")
 
 //@TeleOp       //if this is a teleop
-   //if this is an auto
+//@Autonomous   //if this is an auto
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
