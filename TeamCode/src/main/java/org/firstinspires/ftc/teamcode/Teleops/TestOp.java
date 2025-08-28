@@ -12,11 +12,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config       //if you want config
-@TeleOp(name="Dashboard Speed Control", group="Testing")
+@TeleOp
 
 //@TeleOp       //if this is a teleop
 //@Autonomous   //if this is an auto
-public class TestOp extends OpMode {
+class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
