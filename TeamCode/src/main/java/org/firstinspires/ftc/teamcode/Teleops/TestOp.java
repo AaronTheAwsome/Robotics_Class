@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 //@TeleOp       //if this is a teleop
 //@Autonomous   //if this is an auto
-class TestOp extends OpMode {
+public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
