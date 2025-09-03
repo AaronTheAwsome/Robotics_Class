@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,66 +11,75 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Config
+@Config       //if you want config
 @TeleOp
+
+//@TeleOp       //if this is a teleop
+//@Autonomous   //if this is an auto
 public class BlankOp extends OpMode {
-    // Declare OpMode members
+    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
 
     GamepadEx g1;
 
-    // Dashboard telemetry
+    //this section allows us to access telemetry data from a browser
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
-
     DcMotor myMotor;
-
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
     public void init() {
+        // Initialize the hardware variables. Note that the strings used here as parameters
+        // to 'get' must correspond to the names assigned during the robot configuration
+        // step
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
-
-        // ✅ Setup encoder
-        myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        myMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
     }
 
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit START
+     */
     @Override
-    public void init_loop() { }
+    public void init_loop() {
+    }
 
+    /*
+     * Code to run ONCE when the driver hits START
+     */
     @Override
     public void start() {
         runtime.reset();
         myMotor.setPower(DRIVE_POWER);
-    }
 
+    }
+    /*
+     * Code to run REPEATEDLY after the driver hits START but before they hit STOP
+     */
     @Override
     public void loop() {
         g1.readButtons();
 
-        // ✅ Control motor with power
+        // ✅ Use DRIVE_POWER to control the motor
         myMotor.setPower(DRIVE_POWER);
-
-        // ✅ Encoder telemetry
-        int encoderPosition = myMotor.getCurrentPosition();
-        double velocity = myMotor.getPower();  // only works if motor supports it
 
         // Send info to Dashboard telemetry
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        dashboardTelemetry.addData("Encoder Position", encoderPosition);
-        dashboardTelemetry.addData("Velocity (ticks/sec)", velocity);
         dashboardTelemetry.update();
     }
 
+    /*
+     * Code to run ONCE after the driver hits STOP
+     */
     @Override
     public void stop() {
         myMotor.setPower(0);
-        myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // reset on stop if you want
     }
 }
