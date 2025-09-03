@@ -22,13 +22,11 @@ public class TestOp extends OpMode {
     public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
 
 
-
     GamepadEx g1;
-
-    //this section allows us to access telemetry data from a browser
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     DcMotor myMotor;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -40,7 +38,9 @@ public class TestOp extends OpMode {
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
-// Turn the motor back on when we are done
+        myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn the motor back on when we are done
+
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -71,11 +71,10 @@ public class TestOp extends OpMode {
 
         // ✅ Use DRIVE_POWER to control the motor
         myMotor.setPower(DRIVE_POWER);
-        int position = myMotor.getCurrentPosition();        // Send info to Dashboard telemetry
+        // Send info to Dashboard telemetry
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        telemetry.addData("Encoder Position", position);
-        telemetry.update();
+        telemetry.addData("motor ticks", myMotor.getCurrentPosition());
         dashboardTelemetry.update();
     }
 
