@@ -72,9 +72,9 @@ public class TestOp extends OpMode {
         // ✅ Use DRIVE_POWER to control the motor
         myMotor.setPower(DRIVE_POWER);
         // Send info to Dashboard telemetry
-        dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        telemetry.addData("motor ticks", myMotor.getCurrentPosition());
+        dashboardTelemetry.addData("motor ticks", myMotor.getCurrentPosition());
+        dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.update();
     }
 
