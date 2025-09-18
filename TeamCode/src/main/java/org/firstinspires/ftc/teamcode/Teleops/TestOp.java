@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 19")
+@TeleOp (name = "Trial 21")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
