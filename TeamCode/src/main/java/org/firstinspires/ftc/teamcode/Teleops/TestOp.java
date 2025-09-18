@@ -10,6 +10,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robot.RobotState;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -17,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 26")
+@TeleOp (name = "Trial 28")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -44,7 +51,9 @@ public class TestOp extends OpMode {
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
+        myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotor2.setDirection(DcMotor.Direction.REVERSE);
+        myMotor3.setDirection(DcMotor.Direction.FORWARD);// Turn the motor back on when we are done
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -72,8 +81,8 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("roll",imu.getRobotYawPitchRollAngles().getRoll());
         if( imu.getRobotYawPitchRollAngles().getYaw()< -2){
             myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
-            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() < -5){
                 stop();
                 myMotor.setPower(0);
@@ -82,8 +91,8 @@ public class TestOp extends OpMode {
             }
         } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
             myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
-            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() > 5){
                 stop();
                 myMotor.setPower(0);
@@ -93,7 +102,7 @@ public class TestOp extends OpMode {
         }else{
             myMotor.setPower(0);
             myMotor2.setPower(DRIVE_POWER);
-            myMotor3.setPower(-DRIVE_POWER);
+            myMotor3.setPower(DRIVE_POWER);
         }
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
         dashboardTelemetry.addData("motor ticks", myMotor.getCurrentPosition());
