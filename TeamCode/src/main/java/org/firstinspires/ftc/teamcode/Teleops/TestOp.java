@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp (name = "Trial 33")
+@TeleOp (name = "Trial 34")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -34,24 +34,18 @@ public class TestOp extends OpMode {
     @Override
     public void init() {
         g1 = new GamepadEx(gamepad1);
-
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
         imu = hardwareMap.get(IMU.class,"imu");
-
         myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
         myMotor2.setDirection(DcMotor.Direction.FORWARD);
-
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -119,10 +113,8 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("motor 2 ticks",myMotor2.getCurrentPosition());
         dashboardTelemetry.addData("motor 3 ticks",myMotor3.getCurrentPosition());
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
-
         myMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myMotor.setTargetPosition(positon);
-
         dashboardTelemetry.addData("position",positon);
         dashboardTelemetry.update();
     }
@@ -132,13 +124,10 @@ public class TestOp extends OpMode {
         myMotor.setPower(0);
         myMotor2.setPower(0);
         myMotor3.setPower(0);
-
         myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
