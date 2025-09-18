@@ -1,33 +1,29 @@
 package org.firstinspires.ftc.teamcode.Teleops;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-@Config       //if you want config
-@TeleOp (name = "Trial 17")
-
-//@TeleOp       //if this is a teleop
-//@Autonomous   //if this is an auto
+@Config
+@TeleOp (name = "Trial 18")
+//@Autonomous
 public class TestOp extends OpMode {
-    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public static double DRIVE_POWER = 0;  // default speed (0.0 - 1.0)
+    public static double DRIVE_POWER = 0;
     public static int positon = 10000;
     IMU imu;
-
     GamepadEx g1;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
@@ -35,15 +31,8 @@ public class TestOp extends OpMode {
     DcMotor myMotor2;
     DcMotor myMotor3;
 
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
@@ -65,24 +54,16 @@ public class TestOp extends OpMode {
         dashboardTelemetry.update();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit START
-     */
     @Override
     public void init_loop() {
     }
 
-    /*
-     * Code to run ONCE when the driver hits START
-     */
     @Override
     public void start() {
         runtime.reset();
         imu.resetYaw();
     }
-    /*
-     * Code to run REPEATEDLY after the driver hits START but before they hit STOP
-     */
+
     @Override
     public void loop() {
         g1.readButtons();
@@ -93,10 +74,22 @@ public class TestOp extends OpMode {
             myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
             myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            if (imu.getRobotYawPitchRollAngles().getYaw() < -5){
+                stop();
+                myMotor.setPower(0);
+                myMotor2.setPower(0);
+                myMotor3.setPower(0);
+            }
         } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
             myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
             myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            if (imu.getRobotYawPitchRollAngles().getYaw() > 5){
+                stop();
+                myMotor.setPower(0);
+                myMotor2.setPower(0);
+                myMotor3.setPower(0);
+            }
         }else{
             myMotor.setPower(0);
             myMotor2.setPower(DRIVE_POWER);
@@ -109,13 +102,14 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         myMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myMotor.setTargetPosition(positon);
+        myMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        myMotor2.setTargetPosition(positon);
+        myMotor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        myMotor3.setTargetPosition(positon);
         dashboardTelemetry.addData("position",positon);
         dashboardTelemetry.update();
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
         myMotor.setPower(0);
