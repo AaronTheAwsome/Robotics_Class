@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 18")
+@TeleOp (name = "Trial 19")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,10 +102,10 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         myMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myMotor.setTargetPosition(positon);
-        myMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        myMotor2.setTargetPosition(positon);
-        myMotor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        myMotor3.setTargetPosition(positon);
+        //myMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //myMotor2.setTargetPosition(positon);
+        //myMotor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //myMotor3.setTargetPosition(positon);
         dashboardTelemetry.addData("position",positon);
         dashboardTelemetry.update();
     }
