@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 23")
+@TeleOp (name = "Trial 25")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -33,7 +33,6 @@ public class TestOp extends OpMode {
 
     @Override
     public void init() {
-
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
@@ -55,24 +54,16 @@ public class TestOp extends OpMode {
         dashboardTelemetry.update();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit START
-     */
     @Override
     public void init_loop() {
     }
 
-    /*
-     * Code to run ONCE when the driver hits START
-     */
     @Override
     public void start() {
         runtime.reset();
         imu.resetYaw();
     }
-    /*
-     * Code to run REPEATEDLY after the driver hits START but before they hit STOP
-     */
+
     @Override
     public void loop() {
         g1.readButtons();
@@ -83,10 +74,22 @@ public class TestOp extends OpMode {
             myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
             myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            if (imu.getRobotYawPitchRollAngles().getYaw() < -5){
+                stop();
+                myMotor.setPower(0);
+                myMotor2.setPower(0);
+                myMotor3.setPower(0);
+            }
         } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
             myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
             myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+            if (imu.getRobotYawPitchRollAngles().getYaw() > 5){
+                stop();
+                myMotor.setPower(0);
+                myMotor2.setPower(0);
+                myMotor3.setPower(0);
+            }
         }else{
             myMotor.setPower(0);
             myMotor2.setPower(DRIVE_POWER);
@@ -99,17 +102,14 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         myMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myMotor.setTargetPosition(positon);
-        myMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        myMotor2.setTargetPosition(positon);
-        myMotor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        myMotor3.setTargetPosition(positon);
+        //myMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //myMotor2.setTargetPosition(positon);
+        //myMotor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //myMotor3.setTargetPosition(positon);
         dashboardTelemetry.addData("position",positon);
         dashboardTelemetry.update();
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
         myMotor.setPower(0);
