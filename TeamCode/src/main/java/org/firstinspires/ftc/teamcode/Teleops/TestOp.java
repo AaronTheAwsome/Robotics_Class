@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 25")
+@TeleOp (name = "Trial 26")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -72,7 +72,7 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("roll",imu.getRobotYawPitchRollAngles().getRoll());
         if( imu.getRobotYawPitchRollAngles().getYaw()< -2){
             myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() < -5){
                 stop();
@@ -82,7 +82,7 @@ public class TestOp extends OpMode {
             }
         } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
             myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() > 5){
                 stop();
@@ -93,7 +93,7 @@ public class TestOp extends OpMode {
         }else{
             myMotor.setPower(0);
             myMotor2.setPower(DRIVE_POWER);
-            myMotor3.setPower(DRIVE_POWER);
+            myMotor3.setPower(-DRIVE_POWER);
         }
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
         dashboardTelemetry.addData("motor ticks", myMotor.getCurrentPosition());
