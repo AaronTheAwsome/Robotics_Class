@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 30")
+@TeleOp (name = "Trial 32")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -38,6 +38,14 @@ public class TestOp extends OpMode {
     DcMotor myMotor2;
     DcMotor myMotor3;
 
+    public void runOpMode() {
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  -gamepad1.right_stick_x;
+        double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        myMotor3.setPower(leftPower);
+        myMotor2.setPower(rightPower);
+    }
     @Override
     public void init() {
         g1 = new GamepadEx(gamepad1);
@@ -58,12 +66,7 @@ public class TestOp extends OpMode {
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  -gamepad1.right_stick_x;
-        double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-        myMotor3.setPower(leftPower);
-        myMotor2.setPower(rightPower);
+
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -78,6 +81,7 @@ public class TestOp extends OpMode {
     public void start() {
         runtime.reset();
         imu.resetYaw();
+        runOpMode();
     }
 
     @Override
