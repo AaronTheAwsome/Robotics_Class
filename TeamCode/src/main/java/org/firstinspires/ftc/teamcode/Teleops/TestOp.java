@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Config
-@TeleOp (name = "Trial 29")
+@TeleOp (name = "Trial 30")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -58,9 +58,16 @@ public class TestOp extends OpMode {
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  -gamepad1.right_stick_x;
+        double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        myMotor3.setPower(leftPower);
+        myMotor2.setPower(rightPower);
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
+
     }
 
     @Override
@@ -81,8 +88,8 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("roll",imu.getRobotYawPitchRollAngles().getRoll());
         if( imu.getRobotYawPitchRollAngles().getYaw()< -2){
             myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
-            myMotor3.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() < -5){
                 stop();
                 myMotor.setPower(0);
@@ -91,8 +98,8 @@ public class TestOp extends OpMode {
             }
         } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
             myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
-            myMotor2.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
-            myMotor3.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
             if (imu.getRobotYawPitchRollAngles().getYaw() > 5){
                 stop();
                 myMotor.setPower(0);
