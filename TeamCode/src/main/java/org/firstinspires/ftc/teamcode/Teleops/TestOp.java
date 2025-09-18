@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -17,14 +17,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Config       //if you want config
-@TeleOp (name = "Aarons code")
+@TeleOp (name = "Trial 17")
 
 //@TeleOp       //if this is a teleop
 //@Autonomous   //if this is an auto
 public class TestOp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public static double DRIVE_POWER = 0.5;  // default speed (0.0 - 1.0)
+    public static double DRIVE_POWER = 0;  // default speed (0.0 - 1.0)
     public static int positon = 10000;
     IMU imu;
 
@@ -32,6 +32,9 @@ public class TestOp extends OpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
     DcMotor myMotor;
+    DcMotor myMotor2;
+    DcMotor myMotor3;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -44,14 +47,18 @@ public class TestOp extends OpMode {
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
+        myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
+        myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
         imu = hardwareMap.get(IMU.class,"imu");
         myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
-        myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn the motor back on when we are done
+        myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
+        myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         // Tell the driver that initialization is complete.
         dashboardTelemetry.addData("Status", "Initialized");
@@ -71,8 +78,7 @@ public class TestOp extends OpMode {
     @Override
     public void start() {
         runtime.reset();
-        myMotor.setPower(DRIVE_POWER);
-
+        imu.resetYaw();
     }
     /*
      * Code to run REPEATEDLY after the driver hits START but before they hit STOP
@@ -83,15 +89,23 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("yaw",imu.getRobotYawPitchRollAngles().getYaw());
         dashboardTelemetry.addData("pitch",imu.getRobotYawPitchRollAngles().getPitch());
         dashboardTelemetry.addData("roll",imu.getRobotYawPitchRollAngles().getRoll());
-        myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
-        if( imu.getRobotYawPitchRollAngles().getYaw()> 0){
-            myMotor.setPower(-DRIVE_POWER);
+        if( imu.getRobotYawPitchRollAngles().getYaw()< -2){
+            myMotor.setPower(-imu.getRobotYawPitchRollAngles().getYaw());
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
+        } else if (imu.getRobotYawPitchRollAngles().getYaw() > 2) {
+            myMotor.setPower(imu.getRobotYawPitchRollAngles().getYaw());
+            myMotor2.setPower(-imu.getRobotYawPitchRollAngles().getYaw()/10);
+            myMotor3.setPower(imu.getRobotYawPitchRollAngles().getYaw()/10);
         }else{
-            myMotor.setPower(DRIVE_POWER);
+            myMotor.setPower(0);
+            myMotor2.setPower(DRIVE_POWER);
+            myMotor3.setPower(DRIVE_POWER);
         }
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        dashboardTelemetry.update();
         dashboardTelemetry.addData("motor ticks", myMotor.getCurrentPosition());
+        dashboardTelemetry.addData("motor 2 ticks",myMotor2.getCurrentPosition());
+        dashboardTelemetry.addData("motor 3 ticks",myMotor3.getCurrentPosition());
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         myMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myMotor.setTargetPosition(positon);
@@ -105,6 +119,14 @@ public class TestOp extends OpMode {
     @Override
     public void stop() {
         myMotor.setPower(0);
+        myMotor2.setPower(0);
+        myMotor3.setPower(0);
+        myMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
+        myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the motor encoder
+        myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);// Turn the motor back on when we are done
 
     }
 }
