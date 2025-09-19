@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp (name = "Trial 39")
+@TeleOp (name = "Trial 40")
 //@Autonomous
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -77,7 +77,7 @@ public class TestOp extends OpMode {
         armMotor.setPower(ARM_POWER);
         myMotor3.setPower(leftPower);
         myMotor2.setPower(rightPower);
-        if (Math.abs(turn)>2) {
+        if (Math.abs(turn)>0) {
             imu.resetYaw();
         }
 
