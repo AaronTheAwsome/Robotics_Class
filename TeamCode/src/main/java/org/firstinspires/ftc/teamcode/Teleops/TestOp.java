@@ -36,6 +36,7 @@ public class TestOp extends OpMode {
     public void init() {
         g1 = new GamepadEx(gamepad1);
         myServo = hardwareMap.get(Servo.class, "myServo");
+        myServo2 = hardwareMap.get(Servo.class, "myServo");
         imu = hardwareMap.get(IMU.class,"imu");
         armMotor = hardwareMap.get(DcMotor.class,"armMotor");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
