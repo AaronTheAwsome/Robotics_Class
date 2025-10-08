@@ -36,7 +36,7 @@ public class TestOp extends OpMode {
     public void init() {
         g1 = new GamepadEx(gamepad1);
         myServo = hardwareMap.get(Servo.class, "myServo");
-        myServo2 = hardwareMap.get(Servo.class, "myServo");
+        myServo2 = hardwareMap.get(Servo.class, "myServo2");
         imu = hardwareMap.get(IMU.class,"imu");
         armMotor = hardwareMap.get(DcMotor.class,"armMotor");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
@@ -79,10 +79,10 @@ public class TestOp extends OpMode {
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
         if (gamepad1.a) {
             myServo.setPosition(0.0);
-            myServo2.setPosition(0.0);// Move to position 0 (fully left)
+            myServo2.setPosition(1.0);// Move to position 0 (fully left)
         } else if (gamepad1.b) {
             myServo.setPosition(1.0);
-            myServo2.setPosition(1.0);// Move to position 1 (fully right)
+            myServo2.setPosition(0.0);// Move to position 1 (fully right)
         } else if (gamepad1.x) {
             myServo.setPosition(0.5);
             myServo2.setPosition(0.5);// Move to center
