@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "Trial 49")
+@TeleOp(name = "Trial 50")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
@@ -72,17 +72,17 @@ public class TestOp extends OpMode {
     public void loop() {
         g1.readButtons();
 
-        double drive = -gamepad1.left_stick_y;
+        double drive = gamepad1.left_stick_y;
         double turn  = gamepad1.right_stick_x;
 
         double leftPower  = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
         if (gamepad1.a) {
             myServo.setPosition(0.0);
-            myServo2.setPosition(1.0);// Move to position 0 (fully left)
+            myServo2.setPosition(0.0);// Move to position 0 (fully left)
         } else if (gamepad1.b) {
             myServo.setPosition(1.0);
-            myServo2.setPosition(0.0);// Move to position 1 (fully right)
+            myServo2.setPosition(1.0);// Move to position 1 (fully right)
         } else if (gamepad1.x) {
             myServo.setPosition(0.5);
             myServo2.setPosition(0.5);// Move to center
