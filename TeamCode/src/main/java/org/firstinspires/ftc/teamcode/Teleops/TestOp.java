@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Teleops;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,19 +14,20 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "Trial 50")
+@TeleOp(name = "Trial 51")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
-    public static double ARM_POWER = 0;
+    public static double LANCH_POWER = 0;
     public static int position = 10000;
     IMU imu;
     GamepadEx g1;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
-    DcMotor armMotor;
+    DcMotor lanchMotor;
     DcMotor myMotor2;
     DcMotor myMotor3;
+    DcMotor lanchMotor2;
     Servo myServo;
     Servo myServo2;
 
@@ -38,13 +38,16 @@ public class TestOp extends OpMode {
         myServo = hardwareMap.get(Servo.class, "myServo");
         myServo2 = hardwareMap.get(Servo.class, "myServo2");
         imu = hardwareMap.get(IMU.class,"imu");
-        armMotor = hardwareMap.get(DcMotor.class,"armMotor");
+        lanchMotor = hardwareMap.get(DcMotor.class,"lanchMotor");
+        lanchMotor2 = hardwareMap.get(DcMotor.class,"lanchMotor2");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lanchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lanchMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lanchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lanchMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
@@ -90,9 +93,9 @@ public class TestOp extends OpMode {
 
         myMotor2.setPower(rightPower);
         myMotor3.setPower(leftPower);
-
-        // Arm control
-        armMotor.setPower(ARM_POWER);
+        lanchMotor2.setPower(LANCH_POWER);
+        // The lanch power for both
+        lanchMotor.setPower(LANCH_POWER);
 
         double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
@@ -114,9 +117,9 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("pitch", pitch);
         dashboardTelemetry.addData("roll", roll);
         dashboardTelemetry.addData("position", position);
-        dashboardTelemetry.addData("Arm Power", ARM_POWER);
+        dashboardTelemetry.addData("Lanch Power", LANCH_POWER);
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        dashboardTelemetry.addData("motor ticks", armMotor.getCurrentPosition());
+        dashboardTelemetry.addData("motor ticks", lanchMotor.getCurrentPosition());
         dashboardTelemetry.addData("motor 2 ticks", myMotor2.getCurrentPosition());
         dashboardTelemetry.addData("motor 3 ticks", myMotor3.getCurrentPosition());
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -127,8 +130,10 @@ public class TestOp extends OpMode {
 
     @Override
     public void stop() {
-        armMotor.setPower(0);
+        lanchMotor.setPower(0);
+        lanchMotor2.setPower(0);
         myMotor2.setPower(0);
         myMotor3.setPower(0);
     }
 }
+
