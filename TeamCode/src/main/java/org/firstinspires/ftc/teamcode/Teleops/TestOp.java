@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "S")
+@TeleOp(name = "r")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
@@ -27,7 +27,7 @@ public class TestOp extends OpMode {
     DcMotor launchMotor;
     DcMotor myMotor2;
     DcMotor myMotor3;
-    DcMotor launchMotor2;
+    DcMotor pickUp;
     Servo myServo;
     Servo myServo2;
 
@@ -39,15 +39,15 @@ public class TestOp extends OpMode {
         myServo2 = hardwareMap.get(Servo.class, "myServo2");
         imu = hardwareMap.get(IMU.class,"imu");
         launchMotor = hardwareMap.get(DcMotor.class,"launchMotor");
-        launchMotor2 = hardwareMap.get(DcMotor.class,"launchMotor2");
+        pickUp = hardwareMap.get(DcMotor.class,"pickUp");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        launchMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        launchMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pickUp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
@@ -63,7 +63,9 @@ public class TestOp extends OpMode {
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+
+    }
 
     @Override
     public void start() {
@@ -80,21 +82,25 @@ public class TestOp extends OpMode {
 
         double leftPower  = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
-        if (gamepad1.a) {
-            myServo.setPosition(0.0);
-            myServo2.setPosition(0.0);// Move to position 0 (fully left)
-        } else if (gamepad1.b) {
-            myServo.setPosition(1.0);
-            myServo2.setPosition(1.0);// Move to position 1 (fully right)
-        } else if (gamepad1.x) {
-            myServo.setPosition(0.5);
-            myServo2.setPosition(0.5);// Move to center
+        if (gamepad1.leftBumperWasPressed()) {
+            pickUp.setPower(1);
+            // Set the pick up speed to its max speed
+        } else if (gamepad1.leftBumperWasReleased()) {
+            pickUp.setPower(0.8);
+            pickUp.setPower(0.7);
+            pickUp.setPower(0.6);
+            pickUp.setPower(0.5);
+            pickUp.setPower(0.4);
+            pickUp.setPower(0.3);
+            pickUp.setPower(0);
+
+            // turns off the pick up
         }
 
         myMotor2.setPower(rightPower);
         myMotor3.setPower(leftPower);
-        launchMotor2.setPower(-LAUNCH_POWER);
-        // The lanch power for both
+        pickUp.setPower(-LAUNCH_POWER);
+        // The launch power for both
         launchMotor.setPower(LAUNCH_POWER);
 
         double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
@@ -131,7 +137,7 @@ public class TestOp extends OpMode {
     @Override
     public void stop() {
         launchMotor.setPower(0);
-        launchMotor2.setPower(0);
+        pickUp.setPower(0);
         myMotor2.setPower(0);
         myMotor3.setPower(0);
     }
