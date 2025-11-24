@@ -82,7 +82,7 @@ public class TestOp extends OpMode {
 
         double leftPower  = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
-        if (gamepad1.left_bumper) {
+        if (gamepad1.x) {
             pickUp.setPower(-1);
             // Set the pick up speed to its max speed
         }
