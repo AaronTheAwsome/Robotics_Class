@@ -84,13 +84,22 @@ public class TestOp extends OpMode {
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
         if (gamepad1.x) {
             pickUp.setPower(-1);
+            launchMotor.setPower(0.5);
             // Set the pick up speed to its max speed
+        } else if (gamepad1.circle){
+            launchMotor.setPower(0.5);
+        }
+        if (gamepad1.leftBumperWasPressed()){
+            launchMotor.setPower(1);
+
+        } else if (gamepad1.leftBumperWasReleased()) {
+            launchMotor.setPower(0);
         }
 
         myMotor2.setPower(rightPower);
         myMotor3.setPower(leftPower);
         // The launch power for both
-        launchMotor.setPower(LAUNCH_POWER);
+
 
         double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
