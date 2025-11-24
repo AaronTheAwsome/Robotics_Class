@@ -85,7 +85,6 @@ public class TestOp extends OpMode {
         if (gamepad1.x) {
             pickUp.setPower(-1);
             launchMotor.setPower(0.5);
-            // Set the pick up speed to its max speed
         } else if (gamepad1.circle){
             launchMotor.setPower(0.5);
         }
