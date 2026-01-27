@@ -60,6 +60,7 @@ public class TestOp extends OpMode {
 
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
+        dashboardTelemetry.addData("launchSpeed","launchMotor");
     }
 
     @Override
