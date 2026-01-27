@@ -59,7 +59,7 @@ public class TestOp extends OpMode {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         dashboardTelemetry.addData("Status", "Initialized");
-        dashboardTelemetry.update(x);
+        dashboardTelemetry.update();
         dashboardTelemetry.addData("launchSpeed","launchMotor");
     }
 
