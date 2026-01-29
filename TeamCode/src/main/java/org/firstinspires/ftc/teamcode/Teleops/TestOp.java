@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "r")
+@TeleOp(name = "Project")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
@@ -35,19 +35,30 @@ public class TestOp extends OpMode {
     @Override
     public void init() {
         g1 = new GamepadEx(gamepad1);
+
         myServo = hardwareMap.get(Servo.class, "myServo");
         myServo2 = hardwareMap.get(Servo.class, "myServo2");
+
         imu = hardwareMap.get(IMU.class,"imu");
+
         launchMotor = hardwareMap.get(DcMotor.class,"launchMotor");
+
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
+
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
+
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         launchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         pickUp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
@@ -122,7 +133,7 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("pitch", pitch);
         dashboardTelemetry.addData("roll", roll);
         dashboardTelemetry.addData("position", position);
-        dashboardTelemetry.addData("Lanch Power", LAUNCH_POWER);
+        dashboardTelemetry.addData("Launch Power", LAUNCH_POWER);
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
         dashboardTelemetry.addData("motor ticks", launchMotor.getCurrentPosition());
         dashboardTelemetry.addData("motor 2 ticks", myMotor2.getCurrentPosition());
