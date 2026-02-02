@@ -28,39 +28,34 @@ public class TestOp extends OpMode {
     DcMotor myMotor2;
     DcMotor myMotor3;
     DcMotor pickUp;
-    Servo myServo;
-    Servo myServo2;
-
+    DcMotor myMotorE;
+    DcMotor myMotorE2;
 
     @Override
     public void init() {
         g1 = new GamepadEx(gamepad1);
 
-        myServo = hardwareMap.get(Servo.class, "myServo");
-        myServo2 = hardwareMap.get(Servo.class, "myServo2");
-
         imu = hardwareMap.get(IMU.class,"imu");
 
         launchMotor = hardwareMap.get(DcMotor.class,"launchMotor");
-
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
-
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
+        myMotorE= hardwareMap.get(DcMotor.class,"flyWheel1");
+        myMotorE2= hardwareMap.get(DcMotor.class,"flywheel2");
 
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        myMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        myMotorE2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         pickUp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotorE.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotorE2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
         myMotor2.setDirection(DcMotor.Direction.FORWARD);
 
@@ -94,6 +89,7 @@ public class TestOp extends OpMode {
 
         double leftPower  = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
+
         if (gamepad1.x) {
             pickUp.setPower(-1);
             launchMotor.setPower(0.5);
@@ -101,12 +97,19 @@ public class TestOp extends OpMode {
             pickUp.setPower(0);
             launchMotor.setPower(0);
         }
+
         if (gamepad1.leftBumperWasPressed()){
             launchMotor.setPower(-1);
             pickUp.setPower(0.5);
 
         } else if (gamepad1.leftBumperWasReleased()) {
             launchMotor.setPower(0);
+        }
+
+        if(gamepad1.rightBumperWasPressed()){
+            myMotorE.setPower(-1);
+        } else if (gamepad1.rightBumperWasReleased()) {
+            myMotorE2.setPower(1);
         }
 
         myMotor2.setPower(rightPower);
@@ -140,8 +143,6 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("motor 2 ticks", myMotor2.getCurrentPosition());
         dashboardTelemetry.addData("motor 3 ticks", myMotor3.getCurrentPosition());
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
-        dashboardTelemetry.addData("Servo Position", myServo.getPosition());
-
         dashboardTelemetry.update();
     }
 
