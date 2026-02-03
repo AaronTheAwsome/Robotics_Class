@@ -28,8 +28,8 @@ public class TestOp extends OpMode {
     DcMotor myMotor2;
     DcMotor myMotor3;
     DcMotor pickUp;
-    //DcMotor myMotorE;
-    //DcMotor myMotorE2;
+    DcMotor myMotorE;
+    DcMotor myMotorE2;
 
     @Override
     public void init() {
@@ -41,21 +41,21 @@ public class TestOp extends OpMode {
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
-        //myMotorE= hardwareMap.get(DcMotor.class,"flyWheel1");
-        //myMotorE2= hardwareMap.get(DcMotor.class,"flywheel2");
+        myMotorE= hardwareMap.get(DcMotor.class,"flyWheel1");
+        myMotorE2= hardwareMap.get(DcMotor.class,"flywheel2");
 
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //myMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //myMotorE2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        myMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        myMotorE2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pickUp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //myMotorE.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //myMotorE2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotorE.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        myMotorE2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
         myMotor2.setDirection(DcMotor.Direction.FORWARD);
 
@@ -106,14 +106,11 @@ public class TestOp extends OpMode {
             launchMotor.setPower(0);
         }
 
-        //if(gamepad1.rightBumperWasPressed()){
-            //myMotorE.setPower(-1);
-            //myMotorE2.setPower(1);
-        //} else if (gamepad1.rightBumperWasReleased()) {
-            //myMotorE.setPower(0);
-            //myMotorE2.setPower(0);
-
-        //}
+        if(gamepad1.rightBumperWasPressed()){
+            myMotorE.setPower(-1);
+        } else if (gamepad1.rightBumperWasReleased()) {
+            myMotorE2.setPower(1);
+        }
 
         myMotor2.setPower(rightPower);
         myMotor3.setPower(leftPower);
