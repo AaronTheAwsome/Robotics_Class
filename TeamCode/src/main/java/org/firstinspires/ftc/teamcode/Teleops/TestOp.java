@@ -106,14 +106,14 @@ public class TestOp extends OpMode {
             launchMotor.setPower(0);
         }
 
-        if(gamepad1.rightBumperWasPressed()){
+        //if(gamepad1.rightBumperWasPressed()){
             //myMotorE.setPower(-1);
             //myMotorE2.setPower(1);
-        } else if (gamepad1.rightBumperWasReleased()) {
+        //} else if (gamepad1.rightBumperWasReleased()) {
             //myMotorE.setPower(0);
             //myMotorE2.setPower(0);
 
-        }
+        //}
 
         myMotor2.setPower(rightPower);
         myMotor3.setPower(leftPower);
