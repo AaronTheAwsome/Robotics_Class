@@ -41,8 +41,8 @@ public class TestOp extends OpMode {
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
-        myMotorE= hardwareMap.get(DcMotor.class,"flyWheel1");
-        myMotorE2= hardwareMap.get(DcMotor.class,"flywheel2");
+        myMotorE= hardwareMap.get(DcMotor.class,"myMotorE");
+        myMotorE2= hardwareMap.get(DcMotor.class,"myMotorE2");
 
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -108,8 +108,11 @@ public class TestOp extends OpMode {
 
         if(gamepad1.rightBumperWasPressed()){
             myMotorE.setPower(-1);
-        } else if (gamepad1.rightBumperWasReleased()) {
             myMotorE2.setPower(1);
+
+        } else if (gamepad1.rightBumperWasReleased()) {
+            myMotorE.setPower(0);
+            myMotorE2.setPower(0);
         }
 
         myMotor2.setPower(rightPower);
@@ -122,8 +125,8 @@ public class TestOp extends OpMode {
         double roll = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
         if (Math.abs(turn) < 0.05 ) {
             if (yaw < -2) {
-                myMotor2.setPower(-yaw / 10.0);
-                myMotor3.setPower(yaw / 10.0);
+                myMotor2.setPower(yaw / 10.0);
+                myMotor3.setPower(-yaw / 10.0);
             } else if (yaw > 2) {
                 myMotor2.setPower(-yaw / 10.0);
                 myMotor3.setPower(yaw / 10.0);
