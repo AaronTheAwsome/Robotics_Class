@@ -33,10 +33,10 @@ public class TestOp extends OpMode {
 
     @Override
     public void init() {
+
         g1 = new GamepadEx(gamepad1);
 
         imu = hardwareMap.get(IMU.class,"imu");
-
         launchMotor = hardwareMap.get(DcMotor.class,"launchMotor");
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
@@ -59,10 +59,13 @@ public class TestOp extends OpMode {
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
         myMotor2.setDirection(DcMotor.Direction.FORWARD);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+        imu.resetYaw();
+
+        runtime.reset();
 
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -76,8 +79,6 @@ public class TestOp extends OpMode {
 
     @Override
     public void start() {
-        runtime.reset();
-        imu.resetYaw();
     }
 
     @Override
@@ -120,16 +121,16 @@ public class TestOp extends OpMode {
         // The launch power for both
 
 
-        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double yaw = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
         double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
-        double roll = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
+        double roll = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         if (Math.abs(turn) < 0.05 ) {
-            if (yaw < -2) {
-                myMotor2.setPower(yaw / 10.0);
-                myMotor3.setPower(-yaw / 10.0);
-            } else if (yaw > 2) {
+            if (yaw < -3) {
                 myMotor2.setPower(-yaw / 10.0);
                 myMotor3.setPower(yaw / 10.0);
+            } else if (yaw > 3) {
+                myMotor2.setPower(yaw / 10.0);
+                myMotor3.setPower(-yaw / 10.0);
             }
         }else{
             imu.resetYaw();
