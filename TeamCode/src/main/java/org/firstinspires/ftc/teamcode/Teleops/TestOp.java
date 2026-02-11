@@ -124,13 +124,13 @@ public class TestOp extends OpMode {
         double yaw = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
         double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
         double roll = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        if (Math.abs(turn) < 0.05 ) {
+        if (Math.abs(turn) < 0.07 ) {
             if (yaw < -2) {
-                myMotor2.setPower(-yaw / 10.0);
-                myMotor3.setPower(yaw / 10.0);
+                myMotor2.setPower(-yaw / 50.0);
+                myMotor3.setPower(yaw / 50.0);
             } else if (yaw > 2) {
-                myMotor2.setPower(-yaw / 10.0);
-                myMotor3.setPower(yaw / 10.0);
+                myMotor2.setPower(-yaw / 50.0);
+                myMotor3.setPower(yaw / 50.0);
             }
         }else{
             imu.resetYaw();
