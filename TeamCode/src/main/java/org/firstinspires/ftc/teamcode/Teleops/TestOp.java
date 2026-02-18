@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Teleops;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "Winner")
+@TeleOp(name = "Project")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
@@ -31,22 +30,19 @@ public class TestOp extends OpMode {
     DcMotor pickUp;
     DcMotor myMotorE;
     DcMotor myMotorE2;
-    Servo Smaker;
-    Servo otherSmaker;
+
     @Override
     public void init() {
-
         g1 = new GamepadEx(gamepad1);
 
         imu = hardwareMap.get(IMU.class,"imu");
+
         launchMotor = hardwareMap.get(DcMotor.class,"launchMotor");
         pickUp = hardwareMap.get(DcMotor.class,"pickUp");
         myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
-        myMotorE= hardwareMap.get(DcMotor.class,"myMotorE");
-        myMotorE2= hardwareMap.get(DcMotor.class,"myMotorE2");
-        Smaker = hardwareMap.get(Servo.class,"Smaker");
-        otherSmaker= hardwareMap.get(Servo.class,"otherSmaker");
+        myMotorE= hardwareMap.get(DcMotor.class,"flyWheel1");
+        myMotorE2= hardwareMap.get(DcMotor.class,"flywheel2");
 
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -63,13 +59,10 @@ public class TestOp extends OpMode {
         myMotor3.setDirection(DcMotor.Direction.REVERSE);
         myMotor2.setDirection(DcMotor.Direction.FORWARD);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        imu.resetYaw();
-
-        runtime.reset();
 
         dashboardTelemetry.addData("Status", "Initialized");
         dashboardTelemetry.update();
@@ -83,8 +76,8 @@ public class TestOp extends OpMode {
 
     @Override
     public void start() {
-        Smaker.setPosition(0.5);
-        otherSmaker.setPosition(0.5);
+        runtime.reset();
+        imu.resetYaw();
     }
 
     @Override
@@ -99,35 +92,24 @@ public class TestOp extends OpMode {
 
         if (gamepad1.x) {
             pickUp.setPower(-1);
-            launchMotor.setPower(0.2);
+            launchMotor.setPower(0.5);
         } else if (gamepad1.circle){
             pickUp.setPower(0);
             launchMotor.setPower(0);
         }
 
-        if (gamepad1.triangle){
-            Smaker.setPosition(0);
-            otherSmaker.setPosition(1);
-        }else{
-            Smaker.setPosition(0.5);
-            otherSmaker.setPosition(0.5);
-        }
-
         if (gamepad1.leftBumperWasPressed()){
-            launchMotor.setPower(1);
+            launchMotor.setPower(-1);
+            pickUp.setPower(0.5);
+
         } else if (gamepad1.leftBumperWasReleased()) {
             launchMotor.setPower(0);
         }
 
         if(gamepad1.rightBumperWasPressed()){
             myMotorE.setPower(-1);
-            myMotorE2.setPower(1);
-            myMotorE.setPower(1);
-            myMotorE2.setPower(-1);
-
         } else if (gamepad1.rightBumperWasReleased()) {
-            myMotorE.setPower(0);
-            myMotorE2.setPower(0);
+            myMotorE2.setPower(1);
         }
 
         myMotor2.setPower(rightPower);
@@ -135,16 +117,16 @@ public class TestOp extends OpMode {
         // The launch power for both
 
 
-        double yaw = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
+        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
-        double roll = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        if (Math.abs(turn) < 0.07 ) {
+        double roll = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
+        if (Math.abs(turn) < 0.05 ) {
             if (yaw < -2) {
-                myMotor2.setPower(-yaw / 50.0);
-                myMotor3.setPower(yaw / 50.0);
+                myMotor2.setPower(-yaw / 10.0);
+                myMotor3.setPower(yaw / 10.0);
             } else if (yaw > 2) {
-                myMotor2.setPower(-yaw / 50.0);
-                myMotor3.setPower(yaw / 50.0);
+                myMotor2.setPower(-yaw / 10.0);
+                myMotor3.setPower(yaw / 10.0);
             }
         }else{
             imu.resetYaw();
@@ -171,3 +153,5 @@ public class TestOp extends OpMode {
         myMotor2.setPower(0);
         myMotor3.setPower(0);
     }
+}
+
