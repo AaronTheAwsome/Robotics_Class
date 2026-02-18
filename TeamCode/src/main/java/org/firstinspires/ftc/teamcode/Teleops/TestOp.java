@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
-@TeleOp(name = "Winner")
+@TeleOp(name = "winner")
 public class TestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public static double DRIVE_POWER = 0;
