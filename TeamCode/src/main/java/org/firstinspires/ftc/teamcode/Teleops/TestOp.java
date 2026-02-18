@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Teleops;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -30,7 +31,8 @@ public class TestOp extends OpMode {
     DcMotor pickUp;
     DcMotor myMotorE;
     DcMotor myMotorE2;
-
+    Servo Smaker;
+    Servo otherSmaker;
     @Override
     public void init() {
 
@@ -43,6 +45,8 @@ public class TestOp extends OpMode {
         myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
         myMotorE= hardwareMap.get(DcMotor.class,"myMotorE");
         myMotorE2= hardwareMap.get(DcMotor.class,"myMotorE2");
+        Smaker = hardwareMap.get(Servo.class,"Smaker");
+        otherSmaker= hardwareMap.get(Servo.class,"otherSmaker");
 
         launchMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -79,6 +83,7 @@ public class TestOp extends OpMode {
 
     @Override
     public void start() {
+        Smaker.setPosition(0);
     }
 
     @Override
@@ -97,6 +102,14 @@ public class TestOp extends OpMode {
         } else if (gamepad1.circle){
             pickUp.setPower(0);
             launchMotor.setPower(0);
+        }
+
+        if (gamepad1.triangle){
+            Smaker.setPosition(0.5);
+            otherSmaker.setPosition(0.5);
+        }else{
+            Smaker.setPosition(0.5);
+            otherSmaker.setPosition(1);
         }
 
         if (gamepad1.leftBumperWasPressed()){
