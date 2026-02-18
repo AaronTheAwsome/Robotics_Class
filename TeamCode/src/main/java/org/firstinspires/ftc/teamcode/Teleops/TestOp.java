@@ -83,7 +83,8 @@ public class TestOp extends OpMode {
 
     @Override
     public void start() {
-        Smaker.setPosition(0);
+        Smaker.setPosition(1);
+        otherSmaker.setPosition(0);
     }
 
     @Override
@@ -108,8 +109,8 @@ public class TestOp extends OpMode {
             Smaker.setPosition(0.5);
             otherSmaker.setPosition(0.5);
         }else{
-            Smaker.setPosition(0.5);
-            otherSmaker.setPosition(1);
+            Smaker.setPosition(1);
+            otherSmaker.setPosition(0);
         }
 
         if (gamepad1.leftBumperWasPressed()){
