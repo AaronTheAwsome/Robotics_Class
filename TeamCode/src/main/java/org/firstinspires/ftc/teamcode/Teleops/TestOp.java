@@ -93,14 +93,14 @@ public class TestOp extends OpMode {
 
         if (gamepad1.x) {
             pickUp.setPower(-1);
-            launchMotor.setPower(0.5);
+            launchMotor.setPower(0.2);
         } else if (gamepad1.circle){
             pickUp.setPower(0);
             launchMotor.setPower(0);
         }
 
         if (gamepad1.leftBumperWasPressed()){
-            launchMotor.setPower(0.5);
+            launchMotor.setPower(1);
         } else if (gamepad1.leftBumperWasReleased()) {
             launchMotor.setPower(0);
         }
