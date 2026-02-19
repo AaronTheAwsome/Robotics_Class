@@ -103,9 +103,9 @@ public class TestOp extends OpMode {
         if (g1.wasJustPressed(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER)) {
             shooter.shoot();
         }
-        if (g1.wasJustReleased(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER)) {
-            shooter.stop();
-        }
+        //if (g1.wasJustReleased(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER)) {
+        //    shooter.stop();
+       // }
 
         // Telemetry
         double yaw   = drive.getYaw();
