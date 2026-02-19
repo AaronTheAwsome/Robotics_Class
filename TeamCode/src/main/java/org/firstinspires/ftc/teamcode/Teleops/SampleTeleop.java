@@ -6,13 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 
 @TeleOp (name = "testing")
 public class SampleTeleop extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    DriveTrain driveTrain;
     GamepadEx g1;
 
     //this section allows us to access telemetry data from a browser
@@ -27,7 +25,6 @@ public class SampleTeleop extends OpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step
-        driveTrain = new DriveTrain(hardwareMap);
         g1 = new GamepadEx(gamepad1);
 
         // Tell the driver that initialization is complete.
@@ -61,9 +58,7 @@ public class SampleTeleop extends OpMode {
 
         dashboardTelemetry.addData("left_y value",left_y);
 
-        driveTrain.moveRobot(left_y,-right_x);
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
-        dashboardTelemetry.addData("heading", driveTrain.getHeading());
         dashboardTelemetry.update();
     }
 
