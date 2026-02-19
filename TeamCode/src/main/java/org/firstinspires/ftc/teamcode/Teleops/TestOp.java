@@ -16,68 +16,38 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.ShooterSubsystem;
+
 @Config
-@TeleOp(name = "BattleDriod Manual Control")
+@TeleOp(name = "BattleDroid Manual Control")
 public class TestOp extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
+
     public static double DRIVE_POWER = 0;
     public static double LAUNCH_POWER = 0;
     public static int position = 10000;
 
-    IMU imu;
-    GamepadEx g1;
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    Telemetry dashboardTelemetry = dashboard.getTelemetry();
-    DcMotor liftMotor;
-    DcMotor myMotor2;
-    DcMotor myMotor3;
-    DcMotor pickUp;
-    DcMotor myMotorE;
-    DcMotor myMotorE2;
-    Servo liftServo;
-    Servo liftServo2;
+    private GamepadEx g1;
+
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
+    private Telemetry dashboardTelemetry = dashboard.getTelemetry();
+
+    // subsystems
+    private DriveSubsystem drive;
+    private IntakeSubsystem intake;
+    private ShooterSubsystem shooter;
 
     @Override
     public void init() {
 
         g1 = new GamepadEx(gamepad1);
 
-        imu = hardwareMap.get(IMU.class,"imu");
-        liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
-        pickUp = hardwareMap.get(DcMotor.class,"pickUp");
-        myMotor2 = hardwareMap.get(DcMotor.class,"myMotor2");
-        myMotor3 = hardwareMap.get(DcMotor.class,"myMotor3");
-        myMotorE= hardwareMap.get(DcMotor.class,"myMotorE");
-        myMotorE2= hardwareMap.get(DcMotor.class,"myMotorE2");
-        liftServo = hardwareMap.get(Servo.class,"liftServo");
-        liftServo2= hardwareMap.get(Servo.class,"liftServo2");
-
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        myMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        myMotor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        myMotorE.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        myMotorE2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pickUp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        myMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        myMotor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        myMotorE.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        myMotorE2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        myMotor3.setDirection(DcMotor.Direction.REVERSE);
-        myMotor2.setDirection(DcMotor.Direction.FORWARD);
-
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.UP;
-        RevHubOrientationOnRobot orientationOnRobot =
-                new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
-        imu.resetYaw();
+        drive   = new DriveSubsystem(hardwareMap);
+        intake  = new IntakeSubsystem(hardwareMap);
+        shooter = new ShooterSubsystem(hardwareMap);
 
         runtime.reset();
 
@@ -87,72 +57,60 @@ public class TestOp extends OpMode {
     }
 
     @Override
-    public void init_loop() {}
-
-    @Override
     public void start() {
-        liftServo.setPosition(0.5);
-        liftServo2.setPosition(0.5);
+        intake.setStartPositions();
     }
 
     @Override
     public void loop() {
         g1.readButtons();
 
-        double drive = gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
+        double driveInput = -gamepad1.left_stick_y;  // usually invert for forward
+        double turnInput  = gamepad1.right_stick_x;
 
-        double leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        double rightPower = Range.clip(drive - turn, -1.0, 1.0);
+        // basic driving
+        drive.driveTank(driveInput, turnInput);
 
+        // heading hold (your previous logic)
+        if (Math.abs(turnInput) < 0.07) {
+            // simple P controller: adjust kP to match your old /50.0 behavior
+            drive.headingHold(0.07, 1.0 / 50.0);
+        } else {
+            drive.resetHeading();
+        }
+
+        // intake / lift
         if (gamepad1.x) {
-            pickUp.setPower(-1);
-            liftMotor.setPower(0.2);
-        } else if (gamepad1.circle){
-            pickUp.setPower(0);
-            liftMotor.setPower(0);
+            intake.intakeAndLift();
+        } else if (gamepad1.circle) {
+            intake.stopIntakeAndLift();
         }
 
-        if (gamepad1.triangle){
-            liftServo.setPosition(0);
-            liftServo2.setPosition(1);
+        if (gamepad1.triangle) {
+            intake.dumpPosition();
         } else {
-            liftServo.setPosition(0.5);
-            liftServo2.setPosition(0.5);
+            intake.neutralPosition();
         }
 
-        // note: using GamepadEx for edge-detect
-        if (g1.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
-            liftMotor.setPower(1);
+        if (g1.wasJustPressed(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER)) {
+            intake.liftUp();
         }
-        if (g1.wasJustReleased(GamepadKeys.Button.LEFT_BUMPER)) {
-            liftMotor.setPower(0);
-        }
-
-        if (g1.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)){
-            myMotorE.setPower(1);
-            myMotorE2.setPower(-1);
-        }
-        if (g1.wasJustReleased(GamepadKeys.Button.RIGHT_BUMPER)) {
-            myMotorE.setPower(0);
-            myMotorE2.setPower(0);
+        if (g1.wasJustReleased(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.LEFT_BUMPER)) {
+            intake.liftStop();
         }
 
-        myMotor2.setPower(rightPower);
-        myMotor3.setPower(leftPower);
-
-        double yaw   = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        double pitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
-        double roll  = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
-
-        if (Math.abs(turn) < 0.07 ) {
-            if (yaw < -2 || yaw > 2) {
-                myMotor2.setPower(-yaw / 50.0);
-                myMotor3.setPower(yaw / 50.0);
-            }
-        } else {
-            imu.resetYaw();
+        // shooter
+        if (g1.wasJustPressed(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER)) {
+            shooter.shoot();
         }
+        if (g1.wasJustReleased(com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.RIGHT_BUMPER)) {
+            shooter.stop();
+        }
+
+        // Telemetry
+        double yaw   = drive.getYaw();
+        double pitch = drive.getPitch();
+        double roll  = drive.getRoll();
 
         dashboardTelemetry.addData("yaw", yaw);
         dashboardTelemetry.addData("pitch", pitch);
@@ -160,20 +118,17 @@ public class TestOp extends OpMode {
         dashboardTelemetry.addData("position", position);
         dashboardTelemetry.addData("Launch Power", LAUNCH_POWER);
         dashboardTelemetry.addData("Drive Power", DRIVE_POWER);
-        dashboardTelemetry.addData("motor ticks", liftMotor.getCurrentPosition());
-        dashboardTelemetry.addData("motor 2 ticks", myMotor2.getCurrentPosition());
-        dashboardTelemetry.addData("motor 3 ticks", myMotor3.getCurrentPosition());
+        dashboardTelemetry.addData("lift ticks", intake.getLiftTicks());
+        dashboardTelemetry.addData("left drive ticks", drive.getLeftTicks());
+        dashboardTelemetry.addData("right drive ticks", drive.getRightTicks());
         dashboardTelemetry.addData("Status", "Run Time: " + runtime.toString());
         dashboardTelemetry.update();
     }
 
     @Override
     public void stop() {
-        liftMotor.setPower(0);
-        pickUp.setPower(0);
-        myMotor2.setPower(0);
-        myMotor3.setPower(0);
-        myMotorE.setPower(0);
-        myMotorE2.setPower(0);
+        drive.stop();
+        intake.stop();
+        shooter.stop();
     }
 }
