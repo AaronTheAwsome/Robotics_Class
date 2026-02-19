@@ -27,12 +27,9 @@ public class DriveSubsystem {
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.UP;
-        RevHubOrientationOnRobot orientationOnRobot =
-                new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         imu.resetYaw();
     }
@@ -52,7 +49,7 @@ public class DriveSubsystem {
         // and save it in a field instead, but to keep this simple we will call this
         // only when |turn| < deadband in the OpMode.
 
-        double yaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double yaw = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
 
         if (Math.abs(yaw) > 2) {
             double correction = -yaw * kP;
