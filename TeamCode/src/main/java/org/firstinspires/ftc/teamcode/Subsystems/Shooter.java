@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Shooter {
 
     public static double TARGET_RPM = 500; // change this live from the dashboard
-    double gearRatio = 15.0/(16.0 * 5);
+    double gearRatio = 15.0/16.0;
     public static double MOTOR_SPEED = 1;
     DcMotorEx shooter1;
     DcMotorEx shooter2;

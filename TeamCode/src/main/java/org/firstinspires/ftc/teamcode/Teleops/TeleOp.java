@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -64,8 +63,10 @@ public class TeleOp extends OpMode {
     public void loop() {
         g1.readButtons();
 
-        double driveInput = -gamepad1.left_stick_y;  // usually invert for forward
-        double turnInput  = gamepad1.right_stick_x;
+        double leftForward = -gamepad1.left_stick_y;
+        double rightForward = -gamepad1.right_stick_y;
+        double goLeft = gamepad1.left_stick_x;
+        double goRight = gamepad1.right_stick_x;
 
         if (g1.wasJustPressed(GamepadKeys.Button.B)){
             myShooter.toggleMotor();
@@ -82,7 +83,7 @@ public class TeleOp extends OpMode {
             myShooter.servopos1();
         }
 
-        myDriveTrain.mecanumDrive(driveInput, turnInput);
+        myDriveTrain.mecanumDrive(leftForward,rightForward,goLeft,goRight);
 
     }
 

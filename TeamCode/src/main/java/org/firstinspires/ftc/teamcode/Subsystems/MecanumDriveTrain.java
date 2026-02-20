@@ -58,12 +58,13 @@ public class MecanumDriveTrain{
     public double getYaw() {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
-    public void mecanumDrive(double drive, double turn){
+    public void mecanumDrive(double leftUp,double rightUp, double leftLeft, double rightRight){
 
-        double leftFrontPower = Range.clip(drive + turn, -1.0, 1.0);
-        double leftBackPower = Range.clip(drive - turn, -1.0, 1.0);
-        double rightFrontPower = Range.clip(drive + turn, -1.0, 1.0);
-        double rightBackPower = Range.clip(drive - turn, -1.0, 1.0);
+
+        double leftFrontPower = Range.clip(leftUp + leftLeft, -1.0, 1.0);
+        double leftBackPower = Range.clip(leftUp  + leftLeft, -1.0, 1.0);
+        double rightFrontPower = Range.clip(rightUp + rightRight, -1.0, 1.0);
+        double rightBackPower = Range.clip(rightUp - rightRight, -1.0, 1.0);
 
         dcMotor.setPower(leftFrontPower);
         dcMotor2.setPower(rightFrontPower);
