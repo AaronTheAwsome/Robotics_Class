@@ -16,6 +16,7 @@ public class Shooter {
     DcMotorEx shooter2;
 
     Servo myServo;
+    Servo myServo2;
 
     boolean running = false;
 
@@ -34,6 +35,8 @@ public class Shooter {
         shooter2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         myServo =  hardwareMap.get(Servo.class, "myServo");
+        myServo2 =  hardwareMap.get(Servo.class, "myServo2");
+
     }
 
     public void toggleMotor() {
@@ -50,8 +53,10 @@ public class Shooter {
     }
     public void servopos1() {
         myServo.setPosition(0.0);
+        myServo2.setPosition(0.0);
     }
     public void servopos2() {
-        myServo.setPosition(1);
+        myServo.setPosition(0.5);
+        myServo2.setPosition(1.5);
     }
 }

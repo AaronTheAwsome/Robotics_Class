@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "AidensShit")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Crappy Stuff")
 //@Disabled
 public class TeleOp extends OpMode {
     final double FEED_TIME_SECONDS = 0.20; //The feeder servos run this long when a shot is requested.
@@ -78,7 +78,7 @@ public class TeleOp extends OpMode {
         if (g1.wasJustPressed(GamepadKeys.Button.X)){
             myShooter.servopos2();
         }
-        else {
+        else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
             myShooter.servopos1();
         }
 
