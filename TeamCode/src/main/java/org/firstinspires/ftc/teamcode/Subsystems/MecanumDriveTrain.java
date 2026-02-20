@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -22,8 +23,8 @@ public class MecanumDriveTrain{
     private DcMotor dcMotor3;
     private DcMotor dcMotor4;
     double holdYaw = 0;
-    public MecanumDriveTrain(HardwareMap hardwareMap){
 
+    public MecanumDriveTrain(HardwareMap hardwareMap){
 
         dcMotor = hardwareMap.get(DcMotor.class, "dcMotor");
         dcMotor2 = hardwareMap.get(DcMotor.class, "dcMotor2");
@@ -57,18 +58,12 @@ public class MecanumDriveTrain{
     public double getYaw() {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
-    public void mecanumDrive(double forward, double strafe, double rx){
-        double botHeading = getYaw();
-        double rotX = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
-        double rotY = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
-        rotX= rotX * 1.1;  // Counteract imperfect strafing
+    public void mecanumDrive(double drive, double turn){
 
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        double leftFrontPower = (rotY + rotX + rx) / denominator;
-        double leftBackPower = (rotY - rotX + rx) / denominator;
-        double rightFrontPower = (rotY - rotX - rx) / denominator;
-        double rightBackPower = (rotY + rotX - rx) / denominator;
-
+        double leftFrontPower = Range.clip(drive + turn, -1.0, 1.0);
+        double leftBackPower = Range.clip(drive - turn, -1.0, 1.0);
+        double rightFrontPower = Range.clip(drive + turn, -1.0, 1.0);
+        double rightBackPower = Range.clip(drive - turn, -1.0, 1.0);
 
         dcMotor.setPower(leftFrontPower);
         dcMotor2.setPower(rightFrontPower);
@@ -79,4 +74,5 @@ public class MecanumDriveTrain{
 
 
     }
+
 }

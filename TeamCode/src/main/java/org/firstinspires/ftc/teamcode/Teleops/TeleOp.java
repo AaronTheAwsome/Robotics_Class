@@ -63,6 +63,10 @@ public class TeleOp extends OpMode {
     @Override
     public void loop() {
         g1.readButtons();
+
+        double driveInput = -gamepad1.left_stick_y;  // usually invert for forward
+        double turnInput  = gamepad1.right_stick_x;
+
         if (g1.wasJustPressed(GamepadKeys.Button.B)){
             myShooter.toggleMotor();
 
@@ -78,8 +82,7 @@ public class TeleOp extends OpMode {
             myShooter.servopos1();
         }
 
-        myDriveTrain.mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-
+        myDriveTrain.mecanumDrive(driveInput, turnInput);
 
     }
 
