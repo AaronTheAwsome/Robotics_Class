@@ -1,80 +1,50 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
-
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+@TeleOp
+public class MecanumDriveTrain extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {
+        // Declare our motors
+        // Make sure your ID's match your configuration
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
-public class MecanumDriveTrain{
-    private IMU imu;
-    private DcMotor dcMotor;
+        // Reverse the right side motors. This may be wrong for your setup.
+        // If your robot moves backwards when commanded to go forwards,
+        // reverse the left side instead.
+        // See the note about this earlier on this page.
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-    private DcMotor dcMotor2;
-    private DcMotor dcMotor3;
-    private DcMotor dcMotor4;
-    double holdYaw = 0;
+        waitForStart();
 
-    public MecanumDriveTrain(HardwareMap hardwareMap){
+        if (isStopRequested()) return;
 
-        dcMotor = hardwareMap.get(DcMotor.class, "dcMotor");
-        dcMotor2 = hardwareMap.get(DcMotor.class, "dcMotor2");
-        dcMotor3 = hardwareMap.get(DcMotor.class, "dcMotor3");
-        dcMotor4 = hardwareMap.get(DcMotor.class, "dcMotor4");
-        imu = hardwareMap.get(IMU.class,"imu");
-        RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-        RevHubOrientationOnRobot.LogoFacingDirection logodirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        while (opModeIsActive()) {
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double rx = gamepad1.right_stick_x;
 
-        RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(logodirection,usbFacingDirection);
-        imu.initialize(new IMU.Parameters(orientation));
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
-        dcMotor.setDirection(DcMotor.Direction.FORWARD);
-        dcMotor2.setDirection(DcMotor.Direction.REVERSE);
-        dcMotor3.setDirection(DcMotor.Direction.FORWARD);
-        dcMotor4.setDirection(DcMotor.Direction.REVERSE);
-
-        dcMotor.setZeroPowerBehavior(BRAKE);
-        dcMotor2.setZeroPowerBehavior(BRAKE);
-        dcMotor3.setZeroPowerBehavior(BRAKE);
-        dcMotor4.setZeroPowerBehavior(BRAKE);
-
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
+        }
     }
-
-
-
-    // Rotate the movement direction counter to the bot's rotation
-
-
-
-    public double getYaw() {
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-    }
-    public void mecanumDrive(double leftUp,double rightUp, double leftLeft, double rightRight){
-
-
-        double leftFrontPower = Range.clip(leftUp + leftLeft, -1.0, 1.0);
-        double leftBackPower = Range.clip(leftUp  + leftLeft, -1.0, 1.0);
-        double rightFrontPower = Range.clip(rightUp + rightRight, -1.0, 1.0);
-        double rightBackPower = Range.clip(rightUp - rightRight, -1.0, 1.0);
-
-        dcMotor.setPower(leftFrontPower);
-        dcMotor2.setPower(rightFrontPower);
-        dcMotor3.setPower(leftBackPower);
-        dcMotor4.setPower(rightBackPower);
-
-
-
-
-    }
-
 }
