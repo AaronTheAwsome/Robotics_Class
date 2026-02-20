@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -14,9 +15,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-public class MecanumDriveTrain   {
+public class MecanumDriveTrain{
     private IMU imu;
-
     private DcMotor dcMotor;
     private DcMotor dcMotor2;
     private DcMotor dcMotor3;
@@ -36,10 +36,10 @@ public class MecanumDriveTrain   {
         RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(logodirection,usbFacingDirection);
         imu.initialize(new IMU.Parameters(orientation));
 
-        dcMotor.setDirection(DcMotor.Direction.REVERSE);
-        dcMotor2.setDirection(DcMotor.Direction.FORWARD);
-        dcMotor3.setDirection(DcMotor.Direction.REVERSE);
-        dcMotor4.setDirection(DcMotor.Direction.FORWARD);
+        dcMotor.setDirection(DcMotor.Direction.FORWARD);
+        dcMotor2.setDirection(DcMotor.Direction.REVERSE);
+        dcMotor3.setDirection(DcMotor.Direction.FORWARD);
+        dcMotor4.setDirection(DcMotor.Direction.REVERSE);
 
         dcMotor.setZeroPowerBehavior(BRAKE);
         dcMotor2.setZeroPowerBehavior(BRAKE);

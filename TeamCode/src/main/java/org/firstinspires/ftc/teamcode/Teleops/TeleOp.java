@@ -26,10 +26,6 @@ public class TeleOp extends OpMode {
     private Shooter myShooter;
     GamepadEx g1;
 
-
-
-
-
     ElapsedTime feederTimer = new ElapsedTime();
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
