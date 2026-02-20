@@ -55,14 +55,14 @@ public class DriveSubsystem {
         if (Math.abs(yaw) > 2) {
             double correction = -yaw * kP;
             correction = Range.clip(correction, -0.3, 0.3);
-            leftMotor.setPower(-correction);
-            rightMotor.setPower(correction);
+            leftMotor.setPower(correction);
+            rightMotor.setPower(-correction);
         }
     }
 
-    public double getYaw()   { return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES); }
+    public double getYaw()   { return imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES); }
     public double getPitch() { return imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES); }
-    public double getRoll()  { return imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES); }
+    public double getRoll()  { return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES); }
 
     public int getLeftTicks()  { return leftMotor.getCurrentPosition(); }
     public int getRightTicks() { return rightMotor.getCurrentPosition(); }
