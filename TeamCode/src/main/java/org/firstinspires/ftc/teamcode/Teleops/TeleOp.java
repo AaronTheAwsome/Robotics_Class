@@ -63,10 +63,10 @@ public class TeleOp extends OpMode {
     public void loop() {
         g1.readButtons();
 
-        double leftForward = -gamepad1.left_stick_y;
-        double rightForward = -gamepad1.right_stick_y;
-        double goLeft = gamepad1.left_stick_x;
-        double goRight = gamepad1.right_stick_x;
+
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
 
         if (g1.wasJustPressed(GamepadKeys.Button.B)){
             myShooter.toggleMotor();
@@ -83,7 +83,7 @@ public class TeleOp extends OpMode {
             myShooter.servopos1();
         }
 
-        myDriveTrain.mecanumDrive(leftForward,rightForward,goLeft,goRight);
+        myDriveTrain.mecanumDrive(y,x,rx);
 
     }
 
