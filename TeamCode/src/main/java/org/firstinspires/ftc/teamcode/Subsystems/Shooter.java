@@ -49,8 +49,8 @@ public class Shooter {
         if (running) {
             shooter1.setVelocity(0);
             shooter2.setVelocity(0);
-            //shooter1.setPower(MOTOR_SPEED);
-            //shooter2.setPower(MOTOR_SPEED);
+            //shooter1.setPower(0);
+            //shooter2.setPower(0);
             running = false;
         } else {
             double targetDegPerSec = TARGET_RPM * 6.0 * gearRatio; // reads latest value from dashboard
