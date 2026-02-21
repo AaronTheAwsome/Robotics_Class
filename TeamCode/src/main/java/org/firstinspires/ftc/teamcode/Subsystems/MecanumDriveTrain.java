@@ -62,9 +62,6 @@ public class MecanumDriveTrain{
     public void mecanumDrive(double yy,double xx, double rxrx){
 
 
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio,
-        // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(yy) + Math.abs(xx) + Math.abs(rxrx), 1);
         double frontLeftPower = (yy + xx + rxrx) / denominator;
         double backLeftPower = (yy - xx + rxrx) / denominator;
