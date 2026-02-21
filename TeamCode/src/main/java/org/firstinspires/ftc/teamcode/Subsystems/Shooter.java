@@ -46,17 +46,17 @@ public class Shooter {
 
     public void toggleMotor() {
         if (running) {
-            //shooter1.setVelocity(0);
-            //shooter2.setVelocity(0);
-            shooter1.setPower(MOTOR_SPEED);
-            shooter2.setPower(MOTOR_SPEED);
+            shooter1.setVelocity(0);
+            shooter2.setVelocity(0);
+            //shooter1.setPower(MOTOR_SPEED);
+            //shooter2.setPower(MOTOR_SPEED);
             running = false;
         } else {
             double targetDegPerSec = TARGET_RPM * 6.0 * gearRatio; // reads latest value from dashboard
-            //shooter1.setVelocity(targetDegPerSec, AngleUnit.DEGREES);
-            //shooter2.setVelocity(targetDegPerSec, AngleUnit.DEGREES);
-            shooter1.setPower(MOTOR_SPEED);
-            shooter2.setPower(MOTOR_SPEED);
+            shooter1.setVelocity(targetDegPerSec, AngleUnit.DEGREES);
+            shooter2.setVelocity(targetDegPerSec, AngleUnit.DEGREES);
+            //shooter1.setPower(MOTOR_SPEED);
+            //shooter2.setPower(MOTOR_SPEED);
             running = true;
         }
     }
