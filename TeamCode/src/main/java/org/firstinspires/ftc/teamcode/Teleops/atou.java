@@ -13,7 +13,8 @@ public class atou extends LinearOpMode{
         MecanumDriveTrain myDriveTrain = new MecanumDriveTrain(hardwareMap);
         Shooter SUPA_GUN = new Shooter(hardwareMap);
         myDriveTrain.mecanumDrive(1,0,0);
-        sleep(2000);
+        sleep(1000);
+        SUPA_GUN.toggleMotor();
         //this is the motor and servo code to launch the balls autonomously
         SUPA_GUN.toggleMotor();
         for (int i = 0; i < COUNT; i++) {
