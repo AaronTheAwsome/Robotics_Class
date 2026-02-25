@@ -32,9 +32,7 @@ public class BlankOp extends OpMode {
      */
     @Override
     public void init() {
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step
+
         g1 = new GamepadEx(gamepad1);
 
         myMotor = hardwareMap.get(DcMotor.class,"myMotor");
@@ -66,7 +64,6 @@ public class BlankOp extends OpMode {
     public void loop() {
         g1.readButtons();
 
-        // ✅ Use DRIVE_POWER to control the motor
         myMotor.setPower(DRIVE_POWER);
 
         // Send info to Dashboard telemetry
