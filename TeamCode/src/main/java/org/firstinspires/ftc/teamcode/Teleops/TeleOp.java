@@ -7,10 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.Subsystems.GoBildaPinpointDriver;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Crappy Stuff")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "POOP")
 //@Disabled
 public class TeleOp extends OpMode {
     final double FEED_TIME_SECONDS = 0.20; //The feeder servos run this long when a shot is requested.
@@ -21,7 +22,7 @@ public class TeleOp extends OpMode {
     final double LAUNCHER_MIN_VELOCITY = 1075;
 
     // Declare OpMode members.
-    MecanumDriveTrain myDriveTrain;
+    DriveSubsystem myDriveTrain;
     private Shooter myShooter;
     GamepadEx g1;
 
@@ -34,7 +35,7 @@ public class TeleOp extends OpMode {
     public void init() {
 
 
-        this.myDriveTrain = new MecanumDriveTrain(hardwareMap);
+        this.myDriveTrain = new DriveSubsystem(hardwareMap);
         this.myShooter = new Shooter(hardwareMap);
         g1 = new GamepadEx(gamepad1);
 
@@ -83,7 +84,7 @@ public class TeleOp extends OpMode {
             myShooter.servopos1();
         }
 
-        myDriveTrain.mecanumDrive(y,x,rx);
+        myDriveTrain.drive2(y,x,rx);
 
     }
 
