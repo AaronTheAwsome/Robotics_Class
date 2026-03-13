@@ -33,8 +33,6 @@ public class TeleOp extends OpMode {
 
     @Override
     public void init() {
-
-
         this.myDriveTrain = new DriveSubsystem(hardwareMap);
         this.myShooter = new Shooter(hardwareMap);
         g1 = new GamepadEx(gamepad1);
