@@ -2,17 +2,18 @@ package org.firstinspires.ftc.teamcode.Teleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveTrain;
-import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
+
+import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 @Autonomous(name = "atuo")
 public class atou extends LinearOpMode{
     public void runOpMode(){
         waitForStart();
         int COUNT = 3;
-        MecanumDriveTrain myDriveTrain = new MecanumDriveTrain(hardwareMap);
+        DriveSubsystem myDriveTrain = new DriveSubsystem(hardwareMap);
         Shooter SUPA_GUN = new Shooter(hardwareMap);
-        myDriveTrain.mecanumDrive(1,0,0);
+        myDriveTrain.drive2(1,0,0);
         sleep(1000);
         SUPA_GUN.toggleMotor();
         //this is the motor and servo code to launch the balls autonomously
