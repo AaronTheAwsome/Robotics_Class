@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 public class DriveSubsystem {
     public static double correctionMultiplier = 1;
     public static double ANGULAR_TOLERANCE_DEGREES = 2;
-    public static double rotMulti = 1.1;
+    public static double rotMulti = 1.1;s
     private final DcMotorEx leftFront, leftBack, rightBack, rightFront;
     public GoBildaPinpointDriver pinpoint;
     private double headingToMaintain = 0;
