@@ -4,95 +4,81 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Subsystems.GoBildaPinpointDriver;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Robot")
 //@Disabled
 public class TeleOp extends OpMode {
-    final double FEED_TIME_SECONDS = 0.20; //The feeder servos run this long when a shot is requested.
-    final double STOP_SPEED = 0.0; //We send this power to the servos when we want them to stop.
-    final double FULL_SPEED = 1.0;
 
-    final double LAUNCHER_TARGET_VELOCITY = 1125;
-    final double LAUNCHER_MIN_VELOCITY = 1075;
-
-    // Declare OpMode members.
-    DriveSubsystem myDriveTrain;
+    private DriveSubsystem myDriveTrain;
     private Shooter myShooter;
-    GamepadEx g1;
+    private GamepadEx g1;
 
-    ElapsedTime feederTimer = new ElapsedTime();
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    Telemetry dashboardTelemetry = dashboard.getTelemetry();
-
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
+    private Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
     @Override
     public void init() {
+        myDriveTrain = new DriveSubsystem(hardwareMap);
+        myShooter   = new Shooter(hardwareMap);
+        g1          = new GamepadEx(gamepad1);
 
-
-        this.myDriveTrain = new DriveSubsystem(hardwareMap);
-        this.myShooter = new Shooter(hardwareMap);
-        g1 = new GamepadEx(gamepad1);
+        myDriveTrain.setHeadingToMaintain(0);
 
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit START
-     */
     @Override
     public void init_loop() {
+        telemetry.addData("Target Heading (deg)", myDriveTrain.getHeadingToMaintain());
+        telemetry.addData("Current Heading (deg)", myDriveTrain.getCurrentHeadingDeg());
+        telemetry.update();
     }
 
-    /*
-     * Code to run ONCE when the driver hits START
-     */
     @Override
     public void start() {
-
+        myDriveTrain.setHeadingToMaintain(myDriveTrain.getCurrentHeadingDeg());
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits START but before they hit STOP
-     */
     @Override
     public void loop() {
         g1.readButtons();
 
-
-        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double y  = -gamepad1.left_stick_y;
+        double x  = gamepad1.left_stick_x * 1.1;
         double rx = gamepad1.right_stick_x;
 
-        if (g1.wasJustPressed(GamepadKeys.Button.B)){
+        if (g1.wasJustPressed(GamepadKeys.Button.B)) {
             myShooter.toggleMotor();
-
-        }else{
-
         }
 
-
-        if (g1.wasJustPressed(GamepadKeys.Button.X)){
+        if (g1.wasJustPressed(GamepadKeys.Button.X)) {
             myShooter.servopos2();
-        }
-        else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
+        } else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
             myShooter.servopos1();
         }
 
-        myDriveTrain.drive2(y,x,rx);
+        myDriveTrain.drive2(x, y, rx);
 
+        if (g1.wasJustPressed(GamepadKeys.Button.Y)) {
+            myDriveTrain.setHeadingToMaintain(0);
+        }
+
+        telemetry.addData("Target Heading (deg)", myDriveTrain.getHeadingToMaintain());
+        telemetry.addData("Current Heading (deg)", myDriveTrain.getCurrentHeadingDeg());
+        telemetry.update();
+
+        dashboardTelemetry.addData("Target Heading (deg)", myDriveTrain.getHeadingToMaintain());
+        dashboardTelemetry.addData("Current Heading (deg)", myDriveTrain.getCurrentHeadingDeg());
+        dashboardTelemetry.update();
     }
-
 
     @Override
     public void stop() {
+        myDriveTrain.stopMotors();
     }
-
-
-
 }
