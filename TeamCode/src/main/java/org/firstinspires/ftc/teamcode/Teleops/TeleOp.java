@@ -46,11 +46,28 @@ public class TeleOp extends OpMode {
 
     @Override
     public void loop() {
-        g1.readButtons();
+        double y = 0.0;
+        double x = 0.0;
+        double rx = 0.0;
 
-        double y  = -gamepad1.left_stick_y;
-        double x  = gamepad1.left_stick_x * 1.1;
-        double rx = gamepad1.right_stick_x;
+        g1.readButtons();
+        if (-gamepad1.left_stick_y < 0.3) {
+            y = -gamepad1.left_stick_y;
+        }else {
+            y = 0.0;
+        }
+
+        if (-gamepad1.left_stick_x < 0.3) {
+            x = -gamepad1.left_stick_x;
+        }else {
+            x = 0.0;
+        }
+
+        if (-gamepad1.left_stick_x < 0.3) {
+            rx = gamepad1.left_stick_x;
+        }else {
+            rx = 0.0;
+        }
 
         if (g1.wasJustPressed(GamepadKeys.Button.B)) {
             myShooter.toggleMotor();
