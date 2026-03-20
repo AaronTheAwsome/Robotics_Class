@@ -15,8 +15,9 @@ public class atou extends LinearOpMode{
         myDriveTrain.setHeadingToMaintain(myDriveTrain.getCurrentHeadingDeg());
         sleep(1000);
         Shooter SUPA_GUN = new Shooter(hardwareMap);
-        myDriveTrain.drive2(-0.25,-0.5,0);
+        myDriveTrain.drive2(-0.5,-1,0);
         sleep(1000);
+        myDriveTrain.drive2(0,0,0);
         for (int i = 1; i < 10; i++){
             SUPA_GUN.toggleMotor();
         }
