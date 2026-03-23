@@ -18,6 +18,7 @@ public class atou extends LinearOpMode{
         myDriveTrain.drive2(-0.5,-1,0);
         sleep(1000);
         myDriveTrain.drive2(0,0,0);
+        sleep(500);
         for (int i = 1; i < 10; i++){
             SUPA_GUN.toggleMotor();
         }
