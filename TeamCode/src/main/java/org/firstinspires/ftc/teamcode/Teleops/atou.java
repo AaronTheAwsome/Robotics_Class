@@ -32,7 +32,6 @@ public class atou extends LinearOpMode{
             SUPA_GUN.servopos1();
         }
         SUPA_GUN.toggleMotor();
-
         sleep(1000);
     }
 }
