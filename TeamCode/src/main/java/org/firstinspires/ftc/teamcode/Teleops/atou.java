@@ -16,15 +16,15 @@ public class atou extends LinearOpMode{
         sleep(1000);
         Shooter SUPA_GUN = new Shooter(hardwareMap);
         myDriveTrain.slowDown(1);
-        sleep(100);
+        sleep(50);
         myDriveTrain.slowDown(0.9);
-        sleep(100);
+        sleep(50);
         myDriveTrain.slowDown(0.8);
-        sleep(100);
+        sleep(50);
         myDriveTrain.slowDown(0.7);
-        sleep(100);
+        sleep(50);
         myDriveTrain.slowDown(0.6);
-        sleep(100);
+        sleep(50);
         myDriveTrain.slowDown(0.5);
         sleep(100);
         myDriveTrain.slowDown(0.4);
@@ -37,7 +37,7 @@ public class atou extends LinearOpMode{
         sleep(100);
         myDriveTrain.stopMotors();
         sleep (1000);
-        /*for (int i = 1; i < 10; i++){
+        for (int i = 1; i < 10; i++){
             SUPA_GUN.toggleMotor();
         }
         for (int i = 0; i < COUNT; i++) {
@@ -46,7 +46,7 @@ public class atou extends LinearOpMode{
             sleep(500);
             SUPA_GUN.servopos1();
         }
-        SUPA_GUN.toggleMotor();*/
+        SUPA_GUN.toggleMotor();
         sleep(1000);
     }
 }
