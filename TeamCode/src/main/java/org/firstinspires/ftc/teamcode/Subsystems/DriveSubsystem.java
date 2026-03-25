@@ -108,7 +108,12 @@ public class DriveSubsystem {
         leftFront.setPower(frontLeftPower);
         rightFront.setPower(frontRightPower);
     }
-
+    public void slowDown(double SPEED){
+        leftFront.setPower(SPEED);
+        leftBack.setPower(SPEED);
+        rightFront.setPower(SPEED);
+        rightBack.setPower(SPEED);
+    }
     public void stopMotors() {
         leftFront.setPower(0);
         leftBack.setPower(0);
