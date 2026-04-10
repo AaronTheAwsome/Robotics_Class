@@ -20,11 +20,11 @@ public class atou extends LinearOpMode{
         myDriveTrain.slowDown(0.9);
         sleep(50);
         myDriveTrain.slowDown(0.8);
-        sleep(50);
+        sleep(90);
         myDriveTrain.slowDown(0.7);
-        sleep(50);
+        sleep(100);
         myDriveTrain.slowDown(0.6);
-        sleep(50);
+        sleep(100);
         myDriveTrain.slowDown(0.5);
         sleep(100);
         myDriveTrain.slowDown(0.4);
