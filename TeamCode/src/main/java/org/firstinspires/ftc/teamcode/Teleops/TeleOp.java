@@ -36,7 +36,7 @@ public class TeleOp extends OpMode {
     public void init_loop() {
         telemetry.addData("Target Heading (deg)", myDriveTrain.getHeadingToMaintain());
         telemetry.addData("Current Heading (deg)", myDriveTrain.getCurrentHeadingDeg());
-        telemetry.update();
+        telemetry.update(); 
     }
 
     @Override
