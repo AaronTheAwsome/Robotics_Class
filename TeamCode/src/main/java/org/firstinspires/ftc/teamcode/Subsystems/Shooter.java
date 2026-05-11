@@ -14,8 +14,10 @@ public class Shooter {
     public static double TARGET_RPM = 500; // change this live from the dashboard
     double gearRatio = 15.0/16.0;
     public static double MOTOR_SPEED = 1;
+    public static double PICKUP_SPEED = 0.22;
     DcMotorEx shooter1;
     DcMotorEx shooter2;
+    DcMotorEx pickUp;
     public static double forward = 0.5;
     public static double back = 0.5;
 
@@ -27,24 +29,38 @@ public class Shooter {
     public Shooter(HardwareMap hardwareMap) {
         shooter1 = hardwareMap.get(DcMotorEx.class, "shooter1");
         shooter2 = hardwareMap.get(DcMotorEx.class, "shooter2");
+        pickUp = hardwareMap.get(DcMotorEx.class, "pickUp");
 
         shooter1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pickUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         shooter1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pickUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         shooter1.setDirection(DcMotor.Direction.FORWARD);
         shooter2.setDirection(DcMotorSimple.Direction.REVERSE);
+        pickUp.setDirection(DcMotorSimple.Direction.REVERSE);
 
         shooter1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shooter2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        pickUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        myServo =  hardwareMap.get(Servo.class, "myServo");
-        myServo2 =  hardwareMap.get(Servo.class, "myServo2");
+        //myServo =  hardwareMap.get(Servo.class, "myServo");
+        //myServo2 =  hardwareMap.get(Servo.class, "myServo2");
 
     }
 
+    public void togglePickUp(){
+        if (running){
+            pickUp.setPower(0);
+            running = false;
+        }else {
+            pickUp.setPower(PICKUP_SPEED);
+            running = true;
+        }
+    }
     public void toggleMotor() {
         if (running) {
             //shooter1.setVelocity(0);
@@ -61,13 +77,13 @@ public class Shooter {
             running = true;
         }
     }
-    public void servopos2() {
-        myServo.setPosition(0.5 + back);
-        myServo2.setPosition(0.5 - forward);
-    }
-    public void servopos1() {
-        myServo.setPosition(0.5);
-        myServo2.setPosition(0.5);
-    }
+    //public void servopos2() {
+   //     myServo.setPosition(0.5 + back);
+   //     myServo2.setPosition(0.5 - forward);
+    //}
+    //public void servopos1() {
+      //  myServo.setPosition(0.5);
+        //myServo2.setPosition(0.5);
+   // }
 
 }

@@ -6,8 +6,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 @Autonomous(name = "auto")
 public class atou extends LinearOpMode{
-
-
+    
     public void runOpMode(){
         waitForStart();
         int COUNT = 4;
@@ -40,12 +39,12 @@ public class atou extends LinearOpMode{
         for (int i = 1; i < 10; i++){
             SUPA_GUN.toggleMotor();
         }
-        for (int i = 0; i < COUNT; i++) {
-            sleep(1000);
-            SUPA_GUN.servopos2();
-            sleep(500);
-            SUPA_GUN.servopos1();
-        }
+        //for (int i = 0; i < COUNT; i++) {
+          //  sleep(1000);
+            //SUPA_GUN.servopos2();
+            //sleep(500);
+            //SUPA_GUN.servopos1();
+        //}
         SUPA_GUN.toggleMotor();
         sleep(1000);
     }

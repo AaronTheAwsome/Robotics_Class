@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Robot")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "FIlthy Clanker")
 //@Disabled
 public class TeleOp extends OpMode {
 
@@ -55,12 +55,15 @@ public class TeleOp extends OpMode {
         if (g1.wasJustPressed(GamepadKeys.Button.B)) {
             myShooter.toggleMotor();
         }
-
-        if (g1.wasJustPressed(GamepadKeys.Button.X)) {
-            myShooter.servopos2();
-        } else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
-            myShooter.servopos1();
+        if (g1.wasJustPressed(GamepadKeys.Button.A)){
+            myShooter.togglePickUp();
         }
+
+        //if (g1.wasJustPressed(GamepadKeys.Button.X)) {
+          //  myShooter.servopos2();
+        //} else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
+          //  myShooter.servopos1();
+        //}
 
         myDriveTrain.drive2(x, y, rx);
 
