@@ -84,7 +84,7 @@ public class DriveSubsystem {
                 double absError = Math.abs(errorDeg);
                 double rotSpeed;
                 if (absError > 20) {
-                    rotSpeed = 1.0;
+                    rotSpeed = 0.5;
                 } else {
                     rotSpeed = correctionMultiplier * absError * absError / 800.0;
                 }
