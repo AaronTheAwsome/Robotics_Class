@@ -64,21 +64,21 @@ public class TeleOp extends OpMode {
         //} else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
           //  myShooter.servopos1();
         //}
-        if (-gamepad1.left_stick_x < 0.4){
+        if ( -0.4 < -gamepad1.left_stick_x && -gamepad1.left_stick_x < 0.4){
             y = 0;
-        }else if (-gamepad1.left_stick_x > 0.4){
+        }else if (-0.4 < -gamepad1.left_stick_x || -gamepad1.left_stick_x > 0.4){
             y = -gamepad1.left_stick_x;
         }
 
-        if (gamepad1.left_stick_x < 0.4){
+        if (-0.4 < gamepad1.left_stick_x && gamepad1.left_stick_x < 0.4){
             x = 0;
         }else if (gamepad1.left_stick_y > 0.4){
             x = gamepad1.left_stick_y;
         }
 
-        if (gamepad1.right_stick_x< 0.4){
+        if (-0.4 < gamepad1.right_stick_x && gamepad1.right_stick_x < 0.4){
             rx = gamepad1.right_stick_x;
-        } else if (gamepad1.right_stick_x > 0.4) {
+        } else if (-0.4 < gamepad1.right_stick_x || gamepad1.right_stick_x > 0.4) {
             rx = gamepad1.right_stick_x;
         }
 
