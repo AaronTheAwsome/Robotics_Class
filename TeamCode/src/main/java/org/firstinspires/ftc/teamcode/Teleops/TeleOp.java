@@ -46,8 +46,8 @@ public class TeleOp extends OpMode {
 
     @Override
     public void loop() {
-        double y = -gamepad1.left_stick_y;
-        double x = -gamepad1.left_stick_x;
+        double y = 0;
+        double x = 0;
         double rx = gamepad1.right_stick_x;
 
         g1.readButtons();
@@ -64,8 +64,26 @@ public class TeleOp extends OpMode {
         //} else if (g1.wasJustReleased(GamepadKeys.Button.X)) {
           //  myShooter.servopos1();
         //}
+        if (-gamepad1.left_stick_x < 0.4){
+            y = 0;
+        }else if (-gamepad1.left_stick_x > 0.4){
+            y = -gamepad1.left_stick_x;
+        }
+
+        if (gamepad1.left_stick_x < 0.4){
+            x = 0;
+        }else if (gamepad1.left_stick_y > 0.4){
+            x = gamepad1.left_stick_y;
+        }
+
+        if (gamepad1.right_stick_x< 0.4){
+            rx = gamepad1.right_stick_x;
+        } else if (gamepad1.right_stick_x > 0.4) {
+            rx = gamepad1.right_stick_x;
+        }
 
         myDriveTrain.drive2(x, y, rx);
+
 
         if (g1.wasJustPressed(GamepadKeys.Button.Y)) {
             myDriveTrain.setHeadingToMaintain(0);
